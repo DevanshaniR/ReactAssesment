@@ -2,8 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const MARGIN_LEFT = 20;
 const EMPTY_SPACE_HEIGHT = 40;
-const DROP_DOWN_WIDTH = '50ch';
-const TEXT_FIELD_WIDTH = '25ch';
+const TEXT_FIELD_WIDTH = '50%';
 
 const Styles = makeStyles((theme) => ({
   root: {
@@ -16,15 +15,37 @@ const Styles = makeStyles((theme) => ({
     marginLeft: MARGIN_LEFT
   },
   formControl: {
-    margin: theme.spacing(1),
+    margin: 20,
     width: TEXT_FIELD_WIDTH,
-    marginLeft: MARGIN_LEFT
+    flexDirection: 'row',
+    display: 'flex',
   },
   fixedHeight: {
     height: EMPTY_SPACE_HEIGHT
   },
   dropDownStyle: {
-    width: DROP_DOWN_WIDTH
+    width: TEXT_FIELD_WIDTH
+  },
+  textFieldStyle: {
+    width: TEXT_FIELD_WIDTH,
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  searchFieldStyle: {
+    width: TEXT_FIELD_WIDTH,
+  },
+  checkBoxContainer: {
+    flexDirection: 'row',
+    display: 'flex',
+  },
+  buttonContainer: {
+    display: 'flex',
+    marginLeft: TEXT_FIELD_WIDTH
+  },
+  dropDownContainer: {
+    width: '23%',
+    marginLeft: MARGIN_LEFT
   }
 }));
 
