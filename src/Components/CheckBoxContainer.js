@@ -21,6 +21,7 @@ function CheckBoxContainer(props) {
                 color: Colors.checkBoxColor,
               }} />}
               label={value.label}
+              key = {i}
             />
           )}
         </FormGroup>

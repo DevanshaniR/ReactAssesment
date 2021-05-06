@@ -8,7 +8,13 @@ function OrderDetails(props) {
   return (
     <div>
       <div className={classes.textFieldStyle}>
-        <TextField fullWidth required id="first-name" label={strings.first_name} />
+        <TextField
+          fullWidth
+          required
+          id="first-name"
+          label={strings.first_name}
+          onChange={props.onChangeFirstName}
+        />
         <TextField fullWidth required id="last-name" label={strings.last_name} />
       </div>
       <div className={classes.textFieldStyle}>

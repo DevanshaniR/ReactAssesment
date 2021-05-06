@@ -20,12 +20,14 @@ function AddressDetails(props) {
             id="country-select"
           >
             {drop_down_data.map((value, i) =>
-              <MenuItem value={value.key}>{value.label}</MenuItem>
+              <MenuItem
+                // key={value.key}
+                value={value.key}>{value.label}</MenuItem>
             )}
 
           </Select>
         </FormControl>
-        </div>
+      </div>
       <div className={classes.textFieldStyle}>
         <TextField fullWidth label={strings.address_search_text} type="search" />
       </div>

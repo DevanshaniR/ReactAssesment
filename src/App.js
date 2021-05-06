@@ -4,14 +4,21 @@ import OrderDetails from './Components/OrderDetails';
 import AddressDetails from './Components/AddressDetails';
 import CheckBoxContainer from './Components/CheckBoxContainer';
 import Header from './Components/Header';
-import BottomContainer from './Components/BottomContainer'
+import BottomContainer from './Components/BottomContainer';
+import { useSelector, useDispatch } from 'react-redux';
+import allActions from './actions';
 
 function App() {
   const classes = customStyles();
+  const count = useSelector(state => state.OrderDetails);
+  const [first_name, setFirstName] = useState('');
+  console.log(count);
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <Header />
-      <OrderDetails />
+      <Header/>
+      <OrderDetails
+      onChangeFirstName = {onChangeFirstName}
+      />
       <FixedHeightSection />
       <AddressHeader />
       <AddressDetails />
@@ -23,6 +30,12 @@ function App() {
       <FixedHeightSection />
     </form>
   );
+}
+
+const onChangeFirstName = (event) => {
+  console.log('onChangeFirstName',event.target.value);
+  setFirstName(event.target.value);
+
 }
 
 const FixedHeightSection = () => {
