@@ -21,22 +21,6 @@ const checkbox_data = [
     }
 ];
 
-const drop_down_data = [
-    {
-        "label": "abc",
-        "key": 1
-    },
-    {
-        "label": "cde",
-        "key": 2
-    },
-    {
-        "label": "efg",
-        "key": 3
-    }
-];
-
 export {
-    checkbox_data,
-    drop_down_data
+    checkbox_data
 };

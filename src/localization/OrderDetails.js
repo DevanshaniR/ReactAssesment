@@ -13,7 +13,10 @@ const strings = {
   country_state: 'Country/Province/State',
   postal_code: 'Postal code',
   more_details_text: "I'd like to hear more about...",
-  button_name: "SAVE"
+  button_name: "SAVE",
+  phone_number_error:'Please enter valid telephone number',
+  email_error: 'Please enter valid email',
+  country: 'Country'
 };
 
 export default strings;

@@ -44,8 +44,7 @@ const Styles = makeStyles((theme) => ({
     marginLeft: TEXT_FIELD_WIDTH
   },
   dropDownContainer: {
-    width: '23%',
-    marginLeft: MARGIN_LEFT
+    width: '23%'
   }
 }));
 
