@@ -80,4 +80,14 @@ export const orderDetailsSetAddressData = (data) => {
   };
 };
 
+export const orderDetailsCheckBoxData = (checkbox_data) => {
+  return (dispatch) => {
+    if (FuncUtils.getArraySize(checkbox_data) > 0) {
+      console.log('orderDetailsCheckBoxData ::', checkbox_data);
+      dispatch({ type: 'ORDER_DETAILS_SET_CHECKBOX_DATA', payLoad: checkbox_data });
+    }
+  };
+};
+
+
 

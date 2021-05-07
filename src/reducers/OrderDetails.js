@@ -1,7 +1,8 @@
 
 const INITIAL_STATE = {
     country_data: [],
-    address_data: []
+    address_data: [],
+    ui_checkbox_data: []
 };
 const OrderDetails = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -14,6 +15,11 @@ const OrderDetails = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 address_data: action.payLoad
+            }
+        case 'ORDER_DETAILS_SET_CHECKBOX_DATA':
+            return {
+                ...state,
+                ui_checkbox_data: action.payLoad
             }
         default:
             return state

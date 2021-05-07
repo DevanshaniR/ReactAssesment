@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
-import { orderDetailsGetCountryData, orderDetailsGetAddressDetails } from './actions/OrderDetailsActions';
+import {
+  orderDetailsGetCountryData, orderDetailsGetAddressDetails,
+  orderDetailsCheckBoxData
+} from './actions/OrderDetailsActions';
 import strings from './localization/OrderDetails';
 import customStyles from './styles/customStyles';
 import OrderDetails from './Components/OrderDetails';
@@ -10,6 +13,7 @@ import CheckBoxContainer from './Components/CheckBoxContainer';
 import Header from './Components/Header';
 import BottomContainer from './Components/BottomContainer';
 import FuncUtils from './Config/FuncUtils';
+import { checkbox_data } from './UiData/uiManipulationData';
 
 
 function App() {
@@ -25,12 +29,13 @@ function App() {
 
   const orderDetails = useSelector(state => state.OrderDetails);
 
-  const { country_data = [], address_data = [] } = orderDetails;
+  const { country_data = [], address_data = [], ui_checkbox_data = [] } = orderDetails;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(orderDetailsGetCountryData());
+    dispatch(orderDetailsCheckBoxData(checkbox_data));
   }, [dispatch]);
 
   return (
@@ -60,7 +65,10 @@ function App() {
       />
       <FixedHeightSection />
       <MoreDetailsHeader />
-      <CheckBoxContainer />
+      <CheckBoxContainer
+        ui_checkbox_data={ui_checkbox_data}
+        handleOnChangeCheckBox={(e, x) => handleOnChangeCheckBox(e, x)}
+      />
       <FixedHeightSection />
       <BottomContainer />
       <FixedHeightSection />
@@ -106,12 +114,19 @@ function App() {
       setSelectedAddress(selected_item);
     }
   }
-
   function onInputChangeAddressDropDown(event, values) {
     console.log('onInputChangeAddressDropDown', event, values);
     if (!FuncUtils.isNullOrUndefined(values) && values.length > 3) {
       dispatch(orderDetailsGetAddressDetails(values));
     }
+  }
+
+  function handleOnChangeCheckBox(event, values) {
+    console.log('handleOnChangeCheckBox', event, values);
+    let checkbox_item = _.find(ui_checkbox_data, { 'key': values });
+    checkbox_item.checked = !checkbox_item.checked;
+    dispatch(orderDetailsCheckBoxData(ui_checkbox_data));
+
   }
 }
 

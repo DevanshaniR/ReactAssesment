@@ -6,22 +6,27 @@ import {
   FormGroup
 } from '@material-ui/core';
 import customStyles from '../styles/customStyles';
-import { checkbox_data } from '../UiData/uiManipulationData';
 import Colors from '../Config/colors';
 
 function CheckBoxContainer(props) {
   const classes = customStyles();
+  const { ui_checkbox_data = [] } = props;
   return (
     <div className={classes.headerStyle}>
       <FormControl component="fieldset" className={classes.formControl}>
         <FormGroup row>
-          {checkbox_data.map((value, i) =>
+          {ui_checkbox_data.map((value, i) =>
             <FormControlLabel
-              control={<Checkbox checked={value.checked} name={value.key} style={{
-                color: Colors.checkBoxColor,
-              }} />}
+              control={
+                <Checkbox
+                  onChange={e => props.handleOnChangeCheckBox(e, value.key)}
+                  checked={value.checked}
+                  name={value.key}
+                  style={{
+                    color: Colors.checkBoxColor,
+                  }} />}
               label={value.label}
-              key = {i}
+              key={i}
             />
           )}
         </FormGroup>
