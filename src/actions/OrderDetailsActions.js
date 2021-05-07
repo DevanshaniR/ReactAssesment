@@ -51,8 +51,8 @@ export const orderDetailsGetAddressDetails = (text) => {
               let i = 0;
               _.forEach(features, function (feature_item) {
                 console.log('orderDetailsGetAddressDetails :: value', feature_item);
-                let full_address = formatAddressDetails(feature_item);
-                address_array.push(full_address);
+                let address_obj = formatAddressDetails(feature_item);
+                address_array.push(address_obj);
                 i++;
                 if (i > 5) {
                   return false;

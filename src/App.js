@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import { orderDetailsGetCountryData, orderDetailsGetAddressDetails } from './actions/OrderDetailsActions';
 import strings from './localization/OrderDetails';
 import customStyles from './styles/customStyles';
@@ -20,7 +21,7 @@ function App() {
   const [phone_number_error, setPhoneNumberError] = useState('');
   const [email_error, setEmailError] = useState('');
   const [country_name, setCountry] = useState('');
-  const [selected_address, setSelectedAddress] = useState('');
+  const [selected_address_item, setSelectedAddress] = useState('');
 
   const orderDetails = useSelector(state => state.OrderDetails);
 
@@ -55,7 +56,7 @@ function App() {
         onChangeAddressSearch={onChangeAddressSearch}
         onInputChangeAddressDropDown={onInputChangeAddressDropDown}
         addressSearchData={address_data}
-        selected_address = {selected_address}
+        selected_address_item={selected_address_item}
       />
       <FixedHeightSection />
       <MoreDetailsHeader />
@@ -99,8 +100,10 @@ function App() {
 
   function onChangeAddressSearch(event, values) {
     console.log('onChangeAddressSearch', event, values);
-    if (!FuncUtils.isNullOrUndefined(values) && values.length > 3) {
-      setSelectedAddress(values);
+    if (!FuncUtils.isNullOrUndefined(values)) {
+      let selected_item = _.find(address_data, { 'address_comma_separated': values });
+      console.log('onChangeAddressSearch :: selected_address_item::', selected_item);
+      setSelectedAddress(selected_item);
     }
   }
 
