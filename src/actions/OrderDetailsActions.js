@@ -1,5 +1,6 @@
 import FuncUtils from '../Config/FuncUtils';
 import _ from 'lodash';
+import { formatAddressDetails } from '../Functions/commonFunctions';
 
 export const orderDetailsGetCountryData = () => {
   return (dispatch) => {
@@ -33,20 +34,50 @@ export const orderDetailsSetCountryData = (data) => {
   };
 };
 
-export const orderDetailsGetAddressDetails = () => {
+export const orderDetailsGetAddressDetails = (text) => {
   return (dispatch) => {
     try {
       var requestOptions = {
         method: 'GET',
       };
-      fetch("https://api.geoapify.com/v1/geocode/autocomplete?text=Mosco&apiKey=4339a8357fe547f6a7fc36848fdb7d78", requestOptions)
+      fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&apiKey=4339a8357fe547f6a7fc36848fdb7d78`, requestOptions)
         .then(res => res.json())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        .then(
+          (result) => {
+            console.log('orderDetailsGetAddressDetails', result);
+            if (!FuncUtils.isNullOrUndefined(result)) {
+              const { features = [] } = result;
+              let address_array = [];
+              let i = 0;
+              _.forEach(features, function (feature_item) {
+                console.log('orderDetailsGetAddressDetails :: value', feature_item);
+                let full_address = formatAddressDetails(feature_item);
+                address_array.push(full_address);
+                i++;
+                if (i > 5) {
+                  return false;
+                }
+              });
+              dispatch(orderDetailsSetAddressData(address_array));
+            }
+          },
+          (error) => {
+            console.log('orderDetailsGetAddressDetails::FAILED', error);
+          }
+        )
     } catch (e) {
-      console.log('orderDetailsGetCountryData::EXCEPTION', e);
+      console.log('orderDetailsGetAddressDetails::EXCEPTION', e);
     }
   }
+};
+
+export const orderDetailsSetAddressData = (data) => {
+  return (dispatch) => {
+    if (!FuncUtils.isNullOrUndefined(data)) {
+      console.log('orderDetailsSetAddressData ::', data);
+      dispatch({ type: 'ORDER_DETAILS_SET_ADDRESS_DATA', payLoad: data });
+    }
+  };
 };
 
 

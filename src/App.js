@@ -20,10 +20,11 @@ function App() {
   const [phone_number_error, setPhoneNumberError] = useState('');
   const [email_error, setEmailError] = useState('');
   const [country_name, setCountry] = useState('');
+  const [selected_address, setSelectedAddress] = useState('');
 
   const orderDetails = useSelector(state => state.OrderDetails);
 
-  const { country_data = [] } = orderDetails;
+  const { country_data = [], address_data = [] } = orderDetails;
 
   const dispatch = useDispatch();
 
@@ -50,9 +51,11 @@ function App() {
       <AddressHeader />
       <AddressDetails
         countryDropDownData={country_data}
-        // handleChangeCountryDropDown={handleChangeCountryDropDown}
-        onDropDownInputChange={onInputChangeCountryDropDown}
+        onInputChangeCountryDropDown={onInputChangeCountryDropDown}
         onChangeAddressSearch={onChangeAddressSearch}
+        onInputChangeAddressDropDown={onInputChangeAddressDropDown}
+        addressSearchData={address_data}
+        selected_address = {selected_address}
       />
       <FixedHeightSection />
       <MoreDetailsHeader />
@@ -89,18 +92,23 @@ function App() {
     }
   }
 
-  // function handleChangeCountryDropDown(event, values) {
-  //   console.log('handleChangeCountryDropDown', event, values);
-  //   setCountry(values);
-  // }
-
   function onInputChangeCountryDropDown(event, values) {
     console.log('onInputChangeCountryDropDown', event, values);
     setCountry(values);
   }
 
-  function onChangeAddressSearch(){
-    
+  function onChangeAddressSearch(event, values) {
+    console.log('onChangeAddressSearch', event, values);
+    if (!FuncUtils.isNullOrUndefined(values) && values.length > 3) {
+      setSelectedAddress(values);
+    }
+  }
+
+  function onInputChangeAddressDropDown(event, values) {
+    console.log('onInputChangeAddressDropDown', event, values);
+    if (!FuncUtils.isNullOrUndefined(values) && values.length > 3) {
+      dispatch(orderDetailsGetAddressDetails(values));
+    }
   }
 }
 

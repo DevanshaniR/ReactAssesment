@@ -45,6 +45,9 @@ const Styles = makeStyles((theme) => ({
   },
   dropDownContainer: {
     width: '23%'
+  },
+  addressSearchContainer: {
+    width: TEXT_FIELD_WIDTH
   }
 }));
 
