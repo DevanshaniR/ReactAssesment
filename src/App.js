@@ -58,7 +58,7 @@ function App() {
       <AddressDetails
         countryDropDownData={country_data}
         onInputChangeCountryDropDown={onInputChangeCountryDropDown}
-        onChangeAddressSearch={onChangeAddressSearch}
+        onChangeAddressSearch={(e, x) => onChangeAddressSearch(e, x)}
         onInputChangeAddressDropDown={onInputChangeAddressDropDown}
         addressSearchData={address_data}
         selected_address_item={selected_address_item}
@@ -107,9 +107,9 @@ function App() {
   }
 
   function onChangeAddressSearch(event, values) {
-    console.log('onChangeAddressSearch', event, values);
-    if (!FuncUtils.isNullOrUndefined(values)) {
-      let selected_item = _.find(address_data, { 'address_comma_separated': values });
+    console.log('onChangeAddressSearch', event);
+    if (!FuncUtils.isNullOrUndefined(event)) {
+      let selected_item = _.find(address_data, { 'id': event.id });
       console.log('onChangeAddressSearch :: selected_address_item::', selected_item);
       setSelectedAddress(selected_item);
     }
@@ -126,10 +126,8 @@ function App() {
     let checkbox_item = _.find(ui_checkbox_data, { 'key': values });
     checkbox_item.checked = !checkbox_item.checked;
     dispatch(orderDetailsCheckBoxData(ui_checkbox_data));
-
   }
 }
-
 const FixedHeightSection = () => {
   const classes = customStyles();
   return (

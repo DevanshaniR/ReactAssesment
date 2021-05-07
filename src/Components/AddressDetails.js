@@ -12,11 +12,7 @@ function AddressDetails(props) {
   const classes = customStyles();
 
   const { countryDropDownData = [], addressSearchData = [], selected_address_item = {} } = props;
-
-  let address_drop_down_data = [];
-  if (FuncUtils.getArraySize(addressSearchData) > 0) {
-    address_drop_down_data = _.toArray(_.mapValues(addressSearchData, 'address_comma_separated'));
-  }
+  console.log('AddressDetails :: addressSearchData', addressSearchData);
 
   return (
     <div>
@@ -42,13 +38,13 @@ function AddressDetails(props) {
       <div className={classes.addressSearchContainer}>
         <Autocomplete
           freeSolo
-          options={address_drop_down_data}
+          options={addressSearchData}
+          getOptionLabel={option => option.address_comma_separated}
           id='address-select'
-          onChange={props.onChangeAddressSearch}
+          onChange={(event, value) => props.onChangeAddressSearch(value)}
           onInputChange={props.onInputChangeAddressDropDown}
           renderInput={(params) =>
             <TextField
-              required
               fullWidth
               multiline
               {...params}
@@ -64,15 +60,14 @@ function AddressDetails(props) {
           required
           id="address-line-01"
           label={strings.address_line_1}
-          value={!FuncUtils.isEmpty(selected_address_item)  ? selected_address_item.address_01 : ''}
+          value={!FuncUtils.isEmpty(selected_address_item) ? selected_address_item.address_01 : ''}
         />
         <TextField
           fullWidth
           multiline
-          required
           id="address-line-02"
           label={strings.address_line_2}
-          value={!FuncUtils.isEmpty(selected_address_item)  ? selected_address_item.address_02 : ''}
+          value={!FuncUtils.isEmpty(selected_address_item) ? selected_address_item.address_02 : ''}
         />
       </div>
       <div className={classes.textFieldStyle}>
@@ -82,15 +77,15 @@ function AddressDetails(props) {
           required
           id="town-city"
           label={strings.town_city}
-          value={!FuncUtils.isEmpty(selected_address_item)  ? selected_address_item.city : ''}
+          value={!FuncUtils.isEmpty(selected_address_item) ? selected_address_item.city : ''}
         />
         <TextField
           fullWidth
           multiline
-          required 
+          required
           id="country-state"
           label={strings.country_state}
-          value={!FuncUtils.isEmpty(selected_address_item)  ? selected_address_item.state : ''}
+          value={!FuncUtils.isEmpty(selected_address_item) ? selected_address_item.state : ''}
         />
       </div>
       <div className={classes.textFieldStyle}>
@@ -99,7 +94,7 @@ function AddressDetails(props) {
           required
           id="postal-code"
           label={strings.postal_code}
-          value={!FuncUtils.isEmpty(selected_address_item)  ? selected_address_item.postal_code : ''}
+          value={!FuncUtils.isEmpty(selected_address_item) ? selected_address_item.postal_code : ''}
         />
       </div>
     </div>
