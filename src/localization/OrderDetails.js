@@ -14,9 +14,18 @@ const strings = {
   postal_code: 'Postal code',
   more_details_text: "I'd like to hear more about...",
   button_name: "SAVE",
-  phone_number_error:'Please enter valid telephone number',
+  phone_number_error: 'Please enter valid telephone number',
   email_error: 'Please enter valid email',
-  country: 'Country'
+  country: 'Country',
+  empty_first_name: 'First name can not be empty',
+  empty_last_name: 'Last name can not be empty',
+  empty_email: 'Email can not be empty',
+  empty_phone_number: 'Phone number can not be empty',
+  empty_country: 'Country can not be empty',
+  empty_address_line_one: 'Address line one can not be empty',
+  empty_city: 'City can not be empty',
+  empty_state: 'State can not be empty',
+  empty_postal_code: 'Postal code can not be empty'
 };
 
 export default strings;

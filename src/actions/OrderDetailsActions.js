@@ -1,6 +1,6 @@
 import FuncUtils from '../Config/FuncUtils';
 import _ from 'lodash';
-import { formatAddressDetails } from '../Functions/commonFunctions';
+import validateFunctions from '../Functions/commonFunctions';
 import * as actions from './index';
 import ApiRequestUtils from '../utils/ApiRequestUtils';
 import { MOCK_URL, COUNTRY_API, ADDRESS_DATA_API, getApiUrl } from '../utils/config';
@@ -66,7 +66,7 @@ export const orderDetailsGetAddressDetails = (search_text) => {
             let i = 0;
             _.forEach(features, function (feature_item) {
               console.log('orderDetailsGetAddressDetails :: value', feature_item);
-              let address_obj = formatAddressDetails(feature_item);
+              let address_obj = validateFunctions.formatAddressDetails(feature_item);
               address_array.push(address_obj);
               i++;
               if (i > 5) {

@@ -7,7 +7,7 @@ import customStyles from '../styles/customStyles';
 
 function BottomContainer(props) {
     const classes = customStyles();
-    const { disabled_status = true } = props;
+    const { disabled_status = false } = props;
     return (
         <div className={classes.buttonContainer}>
             <Button
