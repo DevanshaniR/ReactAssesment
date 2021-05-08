@@ -7,9 +7,16 @@ import customStyles from '../styles/customStyles';
 
 function BottomContainer(props) {
     const classes = customStyles();
+    const { disabled_status = true } = props;
     return (
         <div className={classes.buttonContainer}>
-            <Button variant="contained">{strings.button_name}</Button>
+            <Button
+                variant="contained"
+                onClick={() => props.onClickSubmit()}
+                disabled={disabled_status}
+            >
+                {strings.button_name}
+            </Button>
         </div>
     );
 }

@@ -1,29 +1,41 @@
 import FuncUtils from '../Config/FuncUtils';
 import _ from 'lodash';
 import { formatAddressDetails } from '../Functions/commonFunctions';
+import * as actions from './index';
+import ApiRequestUtils from '../utils/ApiRequestUtils';
+import { MOCK_URL, COUNTRY_API, ADDRESS_DATA_API, getApiUrl } from '../utils/config';
 
+/**
+ * This function is use to get country data from API
+ * 
+ */
 export const orderDetailsGetCountryData = () => {
   return (dispatch) => {
     try {
-      let requestOptions = {
-        method: 'GET',
+      const successCb = function (response) {
+        console.log('Redux :: orderDetailsGetCountryData :: successCb ', response);
+        if (response) {
+          console.log('Redux :: orderDetailsGetCountryData - SUCCESS', response);
+          dispatch(orderDetailsSetCountryData(response));
+        } else {
+          console.log('Redux :: orderDetailsGetCountryData - FAIL');
+        }
       };
-      fetch('https://restcountries.eu/rest/v2/all', requestOptions)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            dispatch(orderDetailsSetCountryData(result));
-          },
-          (error) => {
-            console.log('orderDetailsGetCountryData::FAILED', error);
-          }
-        )
+      const failureCb = function (response) {
+        console.log('Redux :: orderDetailsGetCountryData :: failureCb ', response);
+      };
+      ApiRequestUtils.apiGet(COUNTRY_API, successCb, failureCb);
     } catch (e) {
-      console.log('orderDetailsGetCountryData::EXCEPTION', e);
+      console.log('Redux :: orderDetailsGetCountryData :: EXCEPTION ', e);
     }
-  }
+  };
 };
 
+
+/**
+ * This function is use to set country drop down data
+ * 
+ */
 export const orderDetailsSetCountryData = (data) => {
   return (dispatch) => {
     if (!FuncUtils.isNullOrUndefined(data)) {
@@ -34,43 +46,54 @@ export const orderDetailsSetCountryData = (data) => {
   };
 };
 
-export const orderDetailsGetAddressDetails = (text) => {
+
+/**
+ * This function is use to get address details from API based on search text
+ * 
+ */
+export const orderDetailsGetAddressDetails = (search_text) => {
+
+  let url = getApiUrl(search_text, ADDRESS_DATA_API);
   return (dispatch) => {
     try {
-      var requestOptions = {
-        method: 'GET',
-      };
-      fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&apiKey=4339a8357fe547f6a7fc36848fdb7d78`, requestOptions)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            console.log('orderDetailsGetAddressDetails', result);
-            if (!FuncUtils.isNullOrUndefined(result)) {
-              const { features = [] } = result;
-              let address_array = [];
-              let i = 0;
-              _.forEach(features, function (feature_item) {
-                console.log('orderDetailsGetAddressDetails :: value', feature_item);
-                let address_obj = formatAddressDetails(feature_item);
-                address_array.push(address_obj);
-                i++;
-                if (i > 5) {
-                  return false;
-                }
-              });
-              dispatch(orderDetailsSetAddressData(address_array));
-            }
-          },
-          (error) => {
-            console.log('orderDetailsGetAddressDetails::FAILED', error);
+      const successCb = function (response) {
+        console.log('Redux :: orderDetailsGetAddressDetails :: successCb ', response);
+        if (response) {
+          console.log('Redux :: orderDetailsGetAddressDetails - SUCCESS', response);
+          if (!FuncUtils.isNullOrUndefined(response)) {
+            const { features = [] } = response;
+            let address_array = [];
+            let i = 0;
+            _.forEach(features, function (feature_item) {
+              console.log('orderDetailsGetAddressDetails :: value', feature_item);
+              let address_obj = formatAddressDetails(feature_item);
+              address_array.push(address_obj);
+              i++;
+              if (i > 5) {
+                return false;
+              }
+            });
+            dispatch(orderDetailsSetAddressData(address_array));
           }
-        )
+        } else {
+          console.log('Redux :: orderDetailsGetAddressDetails - FAIL');
+        }
+      };
+      const failureCb = function (response) {
+        console.log('Redux :: orderDetailsGetAddressDetails :: failureCb ', response);
+      };
+      ApiRequestUtils.apiGet(url, successCb, failureCb);
     } catch (e) {
-      console.log('orderDetailsGetAddressDetails::EXCEPTION', e);
+      console.log('Redux :: orderDetailsGetAddressDetails :: EXCEPTION ', e);
     }
-  }
+  };
 };
 
+
+/**
+ * This function is use to set address data to the address fields
+ * 
+ */
 export const orderDetailsSetAddressData = (data) => {
   return (dispatch) => {
     if (!FuncUtils.isNullOrUndefined(data)) {
@@ -80,6 +103,11 @@ export const orderDetailsSetAddressData = (data) => {
   };
 };
 
+
+/**
+ * This function is use to set check box data values from UI
+ * 
+ */
 export const orderDetailsCheckBoxData = (checkbox_data) => {
   return (dispatch) => {
     if (FuncUtils.getArraySize(checkbox_data) > 0) {
@@ -88,6 +116,91 @@ export const orderDetailsCheckBoxData = (checkbox_data) => {
     }
   };
 };
+
+
+/**
+ * This function is use to submit user details to the API
+ * 
+ */
+export const orderDetailsSubmitUserDetails = (requestParams, addressRequestParams, interestRequestParams) => {
+  return (dispatch) => {
+    try {
+      const successCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitUserDetails :: successCb ', response);
+        if (response.success) {
+          console.log('Redux :: orderDetailsSubmitUserDetails - SUCCESS', response);
+          dispatch(actions.orderDetailsSubmitAddressDetails(addressRequestParams, interestRequestParams));
+        } else {
+          console.log('Redux :: orderDetailsSubmitUserDetails - FAIL');
+        }
+      };
+      const failureCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitUserDetails :: failureCb ', response);
+      };
+      ApiRequestUtils.apiPost(MOCK_URL, successCb, requestParams, failureCb);
+    } catch (e) {
+      console.log('Redux :: orderDetailsSubmitUserDetails :: EXCEPTION ', e);
+    }
+  };
+};
+
+
+/**
+ * This function is use to submit address details to the API
+ * 
+ */
+export const orderDetailsSubmitAddressDetails = (requestParams, interestRequestParams) => {
+  return (dispatch) => {
+    try {
+      const successCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitAddressDetails :: successCb ', response);
+        if (response.success) {
+          console.log('Redux :: orderDetailsSubmitAddressDetails - SUCCESS', response);
+          if (FuncUtils.getArraySize(interestRequestParams.checked_item_list) > 0) {
+            dispatch(actions.orderDetailsSubmitInterestDetails(interestRequestParams));
+          }
+        } else {
+          console.log('Redux :: orderDetailsSubmitAddressDetails - FAIL');
+        }
+      };
+      const failureCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitAddressDetails :: failureCb ', response);
+      };
+      ApiRequestUtils.apiPost(MOCK_URL, successCb, requestParams, failureCb);
+    } catch (e) {
+      console.log('Redux :: orderDetailsSubmitAddressDetails :: EXCEPTION ', e);
+
+    }
+  };
+};
+
+
+/**
+ * This function is use to submit interest data to the API
+ * 
+ */
+export const orderDetailsSubmitInterestDetails = (requestParams) => {
+  return (dispatch) => {
+    try {
+      const successCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitInterestDetails :: successCb ', response);
+        if (response.success) {
+          console.log('Redux :: orderDetailsSubmitInterestDetails - SUCCESS', response);
+        } else {
+          console.log('Redux :: orderDetailsSubmitInterestDetails - FAIL');
+        }
+      };
+      const failureCb = function (response) {
+        console.log('Redux :: orderDetailsSubmitInterestDetails :: failureCb ', response);
+      };
+      ApiRequestUtils.apiPost(MOCK_URL, successCb, requestParams, failureCb);
+    } catch (e) {
+      console.log('Redux :: orderDetailsSubmitInterestDetails :: EXCEPTION ', e);
+
+    }
+  };
+};
+
 
 
 

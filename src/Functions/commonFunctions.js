@@ -1,4 +1,10 @@
 import FuncUtils from '../Config/FuncUtils';
+
+/**
+ * format address data from the API for search suggestions
+ * @param {*} feature_item 
+ * @returns 
+ */
 const formatAddressDetails = (feature_item = {}) => {
   const { properties = {} } = feature_item;
   let full_address = '';
@@ -40,7 +46,12 @@ const formatAddressDetails = (feature_item = {}) => {
   return address_obj;
 };
 
+const validateInputFields = () => {
+
+};
+
 
 export {
-  formatAddressDetails
+  formatAddressDetails,
+  validateInputFields
 }

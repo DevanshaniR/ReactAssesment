@@ -41,7 +41,7 @@ const Styles = makeStyles((theme) => ({
   },
   buttonContainer: {
     display: 'flex',
-    marginLeft: TEXT_FIELD_WIDTH
+    marginLeft: TEXT_FIELD_WIDTH,
   },
   dropDownContainer: {
     width: '23%'

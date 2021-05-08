@@ -1,7 +1,10 @@
-import OrderDetailsActions from './OrderDetailsActions';
+import * as ORDER_DETAILS_ACTION from './OrderDetailsActions';
 
-const allActions = {
-    OrderDetailsActions
-}
-
-export default allActions;
+export const orderDetailsGetCountryData = ORDER_DETAILS_ACTION.orderDetailsGetCountryData;
+export const orderDetailsSetCountryData = ORDER_DETAILS_ACTION.orderDetailsSetCountryData;
+export const orderDetailsGetAddressDetails = ORDER_DETAILS_ACTION.orderDetailsGetAddressDetails;
+export const orderDetailsSetAddressData = ORDER_DETAILS_ACTION.orderDetailsSetAddressData;
+export const orderDetailsCheckBoxData = ORDER_DETAILS_ACTION.orderDetailsCheckBoxData;
+export const orderDetailsSubmitUserDetails = ORDER_DETAILS_ACTION.orderDetailsSubmitUserDetails;
+export const orderDetailsSubmitAddressDetails = ORDER_DETAILS_ACTION.orderDetailsSubmitAddressDetails;
+export const orderDetailsSubmitInterestDetails = ORDER_DETAILS_ACTION.orderDetailsSubmitInterestDetails;

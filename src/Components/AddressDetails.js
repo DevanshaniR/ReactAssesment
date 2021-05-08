@@ -3,7 +3,6 @@ import {
   TextField
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import _ from 'lodash';
 import strings from '../localization/OrderDetails';
 import customStyles from '../styles/customStyles';
 import FuncUtils from '../Config/FuncUtils';
