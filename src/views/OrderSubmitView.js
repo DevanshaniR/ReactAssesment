@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import _ from 'lodash';
 import * as actions from '../actions';
 import strings from '../localization/OrderDetails';
@@ -35,9 +36,14 @@ function OrderSubmitView() {
     dispatch(actions.orderDetailsCheckBoxData(checkbox_data));
   }, [dispatch]);
 
+  const history = useHistory();
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <Header />
+      <Header
+        header={strings.header}
+        subHeader={strings.sub_header}
+      />
       <OrderDetails
         onChangeFirstName={onChangeFirstName}
         firstNameValue={first_name}
@@ -129,6 +135,9 @@ function OrderSubmitView() {
     dispatch(actions.orderDetailsCheckBoxData(ui_checkbox_data));
   }
 
+  /**
+   * submit order details information
+   */
   function onClickSubmit() {
     console.log('onClickSubmit');
     let userRequestParams = {
@@ -160,10 +169,44 @@ function OrderSubmitView() {
     if (!validated_obj.status) {
       alert(validated_obj.msg);
     } else {
-      dispatch(actions.orderDetailsSubmitUserDetails(userRequestParams, addressRequestParams, interestRequestParams));
+      dispatch(actions.orderDetailsSubmitUserDetails(userRequestParams, addressRequestParams, interestRequestParams, pushOrderVerifyView));
     }
   }
+
+  function pushOrderVerifyView() {
+    console.log('pushOrderVerifyView');
+    let checked_items = _.filter(ui_checkbox_data, { 'checked': true });
+    let checked_interest_list = [];
+    if (FuncUtils.getArraySize(checked_items) > 0) {
+      checked_interest_list = _.toArray(_.mapValues(checked_items, 'label'));
+    }
+    let submitted_data = {
+      first_name: first_name,
+      last_name: last_name,
+      email_address: email_address,
+      phone_number: phone_number,
+      country_name: country_name,
+      selected_address_item: selected_address_item,
+      checked_interest_list: checked_interest_list
+    };
+
+    console.log('pushOrderVerifyView :: submitted_data', submitted_data);
+
+    let format_order_data = validateFunctions.formatOrderSubmitDetails(submitted_data);
+
+    history.push({
+      pathname: '/orderVerify',
+      state: {
+        submitted_data: format_order_data
+      },
+    });
+  }
 }
+
+/**
+ * format UI using fixed height component
+ * @returns 
+ */
 const FixedHeightSection = () => {
   const classes = customStyles();
   return (
@@ -171,6 +214,10 @@ const FixedHeightSection = () => {
   );
 }
 
+/**
+ * Address details text UI component
+ * @returns 
+ */
 const AddressHeader = () => {
   const classes = customStyles();
   return (
@@ -180,6 +227,10 @@ const AddressHeader = () => {
   );
 }
 
+/**
+ * more details text UI component
+ * @returns 
+ */
 const MoreDetailsHeader = () => {
   const classes = customStyles();
   return (
