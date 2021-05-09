@@ -25,7 +25,11 @@ const strings = {
   empty_address_line_one: 'Address line one can not be empty',
   empty_city: 'City can not be empty',
   empty_state: 'State can not be empty',
-  empty_postal_code: 'Postal code can not be empty'
+  empty_postal_code: 'Postal code can not be empty',
+  order_verify_header: 'Order submitted',
+  order_verify_sub_header: 'Order details',
+  address_details: 'Address details',
+  interest_data: 'Interest details'
 };
 
 export default strings;

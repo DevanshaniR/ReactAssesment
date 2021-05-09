@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const MARGIN_LEFT = 20;
 const EMPTY_SPACE_HEIGHT = 40;
 const TEXT_FIELD_WIDTH = '50%';
+const VERIFY_GRID_WIDTH = '60%';
 
 const Styles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,13 @@ const Styles = makeStyles((theme) => ({
   },
   addressSearchContainer: {
     width: TEXT_FIELD_WIDTH
+  },
+  orderVerifyGridStyle :{
+    width: VERIFY_GRID_WIDTH,
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
+     marginLeft: MARGIN_LEFT
   }
 }));
 
