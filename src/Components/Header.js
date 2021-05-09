@@ -1,13 +1,13 @@
 import React from "react";
-import strings from '../localization/OrderDetails';
 import customStyles from '../styles/customStyles';
 
 function Header(props) {
+    const { header = '', subHeader = '' } = props;
     const classes = customStyles();
     return (
         <div className={classes.headerStyle}>
-            <h1>{strings.header}</h1>
-            <h3>{strings.sub_header}</h3>
+            <h1>{header}</h1>
+            <h3>{subHeader}</h3>
         </div>
     );
 }
