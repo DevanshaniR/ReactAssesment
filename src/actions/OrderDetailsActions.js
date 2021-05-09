@@ -122,14 +122,14 @@ export const orderDetailsCheckBoxData = (checkbox_data) => {
  * This function is use to submit user details to the API
  * 
  */
-export const orderDetailsSubmitUserDetails = (requestParams, addressRequestParams, interestRequestParams) => {
+export const orderDetailsSubmitUserDetails = (requestParams, addressRequestParams, interestRequestParams, pushOrderVerifyView) => {
   return (dispatch) => {
     try {
       const successCb = function (response) {
         console.log('Redux :: orderDetailsSubmitUserDetails :: successCb ', response);
         if (response.success) {
           console.log('Redux :: orderDetailsSubmitUserDetails - SUCCESS', response);
-          dispatch(actions.orderDetailsSubmitAddressDetails(addressRequestParams, interestRequestParams));
+          dispatch(actions.orderDetailsSubmitAddressDetails(addressRequestParams, interestRequestParams, pushOrderVerifyView));
         } else {
           console.log('Redux :: orderDetailsSubmitUserDetails - FAIL');
         }
@@ -149,7 +149,7 @@ export const orderDetailsSubmitUserDetails = (requestParams, addressRequestParam
  * This function is use to submit address details to the API
  * 
  */
-export const orderDetailsSubmitAddressDetails = (requestParams, interestRequestParams) => {
+export const orderDetailsSubmitAddressDetails = (requestParams, interestRequestParams, pushOrderVerifyView) => {
   return (dispatch) => {
     try {
       const successCb = function (response) {
@@ -157,7 +157,9 @@ export const orderDetailsSubmitAddressDetails = (requestParams, interestRequestP
         if (response.success) {
           console.log('Redux :: orderDetailsSubmitAddressDetails - SUCCESS', response);
           if (FuncUtils.getArraySize(interestRequestParams.checked_item_list) > 0) {
-            dispatch(actions.orderDetailsSubmitInterestDetails(interestRequestParams));
+            dispatch(actions.orderDetailsSubmitInterestDetails(interestRequestParams, pushOrderVerifyView));
+          } else {
+            pushOrderVerifyView();
           }
         } else {
           console.log('Redux :: orderDetailsSubmitAddressDetails - FAIL');
@@ -179,13 +181,14 @@ export const orderDetailsSubmitAddressDetails = (requestParams, interestRequestP
  * This function is use to submit interest data to the API
  * 
  */
-export const orderDetailsSubmitInterestDetails = (requestParams) => {
-  return (dispatch) => {
+export const orderDetailsSubmitInterestDetails = (requestParams, pushOrderVerifyView) => {
+  return () => {
     try {
       const successCb = function (response) {
         console.log('Redux :: orderDetailsSubmitInterestDetails :: successCb ', response);
         if (response.success) {
           console.log('Redux :: orderDetailsSubmitInterestDetails - SUCCESS', response);
+          pushOrderVerifyView();
         } else {
           console.log('Redux :: orderDetailsSubmitInterestDetails - FAIL');
         }
@@ -198,7 +201,7 @@ export const orderDetailsSubmitInterestDetails = (requestParams) => {
       console.log('Redux :: orderDetailsSubmitInterestDetails :: EXCEPTION ', e);
 
     }
-  };
+  }
 };
 
 
