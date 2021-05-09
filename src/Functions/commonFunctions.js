@@ -47,6 +47,12 @@ const formatAddressDetails = (feature_item = {}) => {
   return address_obj;
 };
 
+/**
+ * validate mandatory input fields to submit order
+ * @param {*} userParams 
+ * @param {*} addressParams 
+ * @returns 
+ */
 export const validateInputFields = (userParams, addressParams) => {
   console.log('validateInputFields:: 1', userParams.address_line_one);
   let validate_obj = {
@@ -109,7 +115,7 @@ export const validateInputFields = (userParams, addressParams) => {
     return validate_obj;
   }
 
-  
+
   if (FuncUtils.isNullOrUndefined(addressParams.postal_code) || FuncUtils.isEmpty(addressParams.postal_code)) {
     console.log('validateInputFields:: 10');
     validate_obj.msg = strings.empty_postal_code;
@@ -120,9 +126,60 @@ export const validateInputFields = (userParams, addressParams) => {
   return validate_obj;
 };
 
+/**
+ * format order details to show in verify view
+ * @param {*} order_obj 
+ * @returns 
+ */
+export const formatOrderSubmitDetails = (order_obj) => {
+
+  let order_details = [];
+  let first_name_obj = {
+    'name': strings.first_name,
+    'value': order_obj.first_name
+  };
+  let last_name_obj = {
+    'name': strings.last_name,
+    'value': order_obj.last_name
+  };
+  let email_obj = {
+    'name': strings.email,
+    'value': order_obj.email_address
+  };
+  let phone_obj = {
+    'name': strings.telephone_number,
+    'value': order_obj.phone_number
+  };
+  let country_obj = {
+    'name': strings.country,
+    'value': order_obj.country_name
+  };
+  let address_obj = {
+    'name': strings.address_details,
+    'value': order_obj.selected_address_item.address_comma_separated
+  };
+  let checked_interest_list = order_obj.checked_interest_list;
+
+  order_details.push(first_name_obj);
+  order_details.push(last_name_obj);
+  order_details.push(email_obj);
+  order_details.push(phone_obj);
+  order_details.push(country_obj);
+  order_details.push(address_obj);
+  if (FuncUtils.getArraySize(checked_interest_list) > 0) {
+    let interest_obj = {
+      'name': strings.interest_data,
+      'value': checked_interest_list.join()
+    };
+    order_details.push(interest_obj);
+  }
+  return order_details;
+};
+
 const functionValidations = {
   formatAddressDetails,
-  validateInputFields
+  validateInputFields,
+  formatOrderSubmitDetails
 }
 
 export default functionValidations;
